@@ -1,6 +1,7 @@
 package thedark.example.com.thefoodhouse_client.Authentication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import thedark.example.com.thefoodhouse_client.Common.Common;
+import thedark.example.com.thefoodhouse_client.Home;
 import thedark.example.com.thefoodhouse_client.Model.User;
 import thedark.example.com.thefoodhouse_client.R;
 
@@ -54,8 +57,11 @@ public class SignInActivity extends AppCompatActivity {
                             User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                             if (user.getPassword().equals(edtPassword.getText().toString()))
                             {
-                                Toast.makeText(SignInActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
                                 mDialog.dismiss();
+                                Intent moveToHome = new Intent(getApplicationContext(), Home.class);
+                                Common.currentUser = user;
+                                startActivity(moveToHome);
+                                finish();
                             }else
                             {
                                 Toast.makeText(SignInActivity.this, "Wrong phone number or password", Toast.LENGTH_SHORT).show();

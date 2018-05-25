@@ -17,7 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Authentication.SignInActivity" />
-        <activity android:name=".Authentication.SignUpActivity"></activity>
+        <activity android:name=".Authentication.SignUpActivity" />
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
