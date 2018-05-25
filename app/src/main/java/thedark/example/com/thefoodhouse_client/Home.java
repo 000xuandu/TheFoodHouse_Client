@@ -33,6 +33,7 @@ public class Home extends AppCompatActivity
     FirebaseDatabase database;
     DatabaseReference category;
     TextView txtFullName;
+    TextView txtEmail;
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
@@ -73,7 +74,9 @@ public class Home extends AppCompatActivity
         //Set Name for User:
         View headView = navigationView.getHeaderView(0);
         txtFullName = (TextView) headView.findViewById(R.id.txtFullName);
+        txtEmail = (TextView) headView.findViewById(R.id.txtEmail);
         txtFullName.setText(Common.currentUser.getName());
+        txtEmail.setText(Common.currentUser.getEmail());
 
         //Load Menu:
         recycler_menu = (RecyclerView) findViewById(R.id.recycler_menu);

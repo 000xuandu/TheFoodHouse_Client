@@ -47,10 +47,10 @@ public class SignUpActivity extends AppCompatActivity {
                 mDialog.setMessage("Please waiting...");
                 mDialog.show();
 
-                table_users.addValueEventListener(new ValueEventListener() {
+                table_users.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //Check if already user phone
+                        // Check if already user phone
                         if (dataSnapshot.child(edtPhone.getText().toString()).exists())
                         {
                             mDialog.dismiss();
