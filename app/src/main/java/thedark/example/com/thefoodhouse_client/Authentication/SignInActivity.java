@@ -51,26 +51,33 @@ public class SignInActivity extends AppCompatActivity {
                 table_users.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //Check if user not exist in databas:
-                        if (dataSnapshot.child(edtPhone.getText().toString()).exists()){
-                            //Get User Information:
-                            User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                            if (user.getPassword().equals(edtPassword.getText().toString()))
-                            {
-                                mDialog.dismiss();
-                                Intent moveToHome = new Intent(getApplicationContext(), Home.class);
-                                Common.currentUser = user;
-                                startActivity(moveToHome);
-                                finish();
+
+                        //Check null information:
+                        if (edtPhone.getText().toString().equals("") || edtPassword.getText().toString().equals("")){
+                            mDialog.dismiss();
+                            Toast.makeText(SignInActivity.this, "Please enter full information", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //Check if user not exist in databas:
+                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()){
+                                //Get User Information:
+                                User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                                if (user.getPassword().equals(edtPassword.getText().toString()))
+                                {
+                                    mDialog.dismiss();
+                                    Intent moveToHome = new Intent(getApplicationContext(), Home.class);
+                                    Common.currentUser = user;
+                                    startActivity(moveToHome);
+                                    finish();
+                                }else
+                                {
+                                    Toast.makeText(SignInActivity.this, "Wrong phone number or password", Toast.LENGTH_SHORT).show();
+                                    mDialog.dismiss();
+                                }
                             }else
                             {
-                                Toast.makeText(SignInActivity.this, "Wrong phone number or password", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignInActivity.this, "Phone number doesn't exist", Toast.LENGTH_SHORT).show();
                                 mDialog.dismiss();
                             }
-                        }else
-                        {
-                            Toast.makeText(SignInActivity.this, "Phone number doesn't exist", Toast.LENGTH_SHORT).show();
-                            mDialog.dismiss();
                         }
 
                     }
