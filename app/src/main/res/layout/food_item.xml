@@ -11,23 +11,22 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
-
         <ImageView
-            android:id="@+id/menu_image"
+            android:id="@+id/food_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/background" />
 
         <TextView
-            android:id="@+id/menu_name"
+            android:id="@+id/food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#4F0E0D0E"
             android:gravity="center"
             android:padding="3dp"
-            android:text="@string/name_of_menu"
+            android:text="@string/name_of_food"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />

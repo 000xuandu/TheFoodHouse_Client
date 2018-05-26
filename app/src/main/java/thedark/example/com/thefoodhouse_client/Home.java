@@ -1,5 +1,6 @@
 package thedark.example.com.thefoodhouse_client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import thedark.example.com.thefoodhouse_client.Common.Common;
+import thedark.example.com.thefoodhouse_client.Food.FoodListActivity;
 import thedark.example.com.thefoodhouse_client.Interface.ItemClickListener;
 import thedark.example.com.thefoodhouse_client.Model.Category;
 import thedark.example.com.thefoodhouse_client.ViewHolder.MenuViewHolder;
@@ -37,7 +38,7 @@ public class Home extends AppCompatActivity
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
-
+    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +89,9 @@ public class Home extends AppCompatActivity
 
     private void loadMenu() {
 
-        FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
             @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
+            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, final int position) {
                 viewHolder.txtMenuName.setText(model.getName());
                 Picasso.get()
                         .load(model.getImage())
@@ -99,7 +100,12 @@ public class Home extends AppCompatActivity
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int positon, boolean isLongClick) {
-                        Toast.makeText(Home.this, ""+clickItem.getName(), Toast.LENGTH_SHORT).show();
+
+                        //Get CategoryID and send to new Activity:
+                        Intent moveToFoodList = new Intent(getApplicationContext(), FoodListActivity.class);
+                        //Because CategoryID is Key, so we just get key of this item:
+                        moveToFoodList.putExtra("CategoryID", adapter.getRef(position).getKey());
+                        startActivity(moveToFoodList);
                     }
                 });
             }

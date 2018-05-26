@@ -20,5 +20,6 @@
     <string name="menu">Menu</string>
     <string name="sign_out">Sign out</string>
     <string name="name_of_menu">Name of Menu</string>
+    <string name="name_of_food">Name of Food</string>
 
 </resources>
