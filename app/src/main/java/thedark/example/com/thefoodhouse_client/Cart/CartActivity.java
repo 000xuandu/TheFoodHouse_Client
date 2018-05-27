@@ -71,7 +71,7 @@ public class CartActivity extends AppCompatActivity {
                             Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else {
+                } else {
                     showAlertDialog();
                 }
             }
@@ -97,22 +97,27 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //Create new Request:
-                Request request = new Request(
-                        Common.currentUser.getPhone(),
-                        Common.currentUser.getName(),
-                        edtAddress.getText().toString(),
-                        txtTotal.getText().toString(),
-                        cart
-                );
-                //Submit Firebase:
-                //We will using System.CurrentMilli to key
-                requests.child(Common.currentUser.getPhone())
-                        .child(String.valueOf(System.currentTimeMillis()))
-                        .setValue(request);
-                //Delete Cart:
-                new Database(getApplicationContext()).cleanCart();
-                Toast.makeText(CartActivity.this, "Thank you, Order Place", Toast.LENGTH_SHORT).show();
-                finish();
+                if (edtAddress.getText().toString().equals("")) {
+                    Toast.makeText(CartActivity.this, "Please enter your address", Toast.LENGTH_SHORT).show();
+                } else {
+                    Request request = new Request(
+                            Common.currentUser.getPhone(),
+                            Common.currentUser.getName(),
+                            edtAddress.getText().toString(),
+                            txtTotal.getText().toString(),
+                            cart
+                    );
+                    //Submit Firebase:
+                    //We will using System.CurrentMilli to key
+                    requests.child(Common.currentUser.getPhone())
+                            .child(String.valueOf(System.currentTimeMillis()))
+                            .setValue(request);
+                    //Delete Cart:
+                    new Database(getApplicationContext()).cleanCart();
+                    Toast.makeText(CartActivity.this, "Thank you, Order successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
             }
         });
         alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -125,7 +130,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void loadListFoodOrder() {
+    public void loadListFoodOrder() {
         cart = new Database(getApplicationContext()).getCarts();
         cartViewAdapter = new CartViewAdapter(cart, this);
         cartViewAdapter.notifyDataSetChanged();
@@ -133,6 +138,12 @@ public class CartActivity extends AppCompatActivity {
 
         if (cart.size() == 0) {
             txtTotal.setText("0$");
+            btnPlace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         //Calculate total price:
@@ -142,6 +153,19 @@ public class CartActivity extends AppCompatActivity {
             Locale locale = new Locale("en", "US");
             NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
             txtTotal.setText(numberFormat.format(total) + " $");
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (cart.size() == 0) {
+            btnPlace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
