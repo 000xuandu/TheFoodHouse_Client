@@ -136,15 +136,7 @@ public class CartActivity extends AppCompatActivity {
         cartViewAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(cartViewAdapter);
 
-        if (cart.size() == 0) {
-            txtTotal.setText("0$");
-            btnPlace.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        checkSizeCart();
 
         //Calculate total price:
         int total = 0;
@@ -152,14 +144,20 @@ public class CartActivity extends AppCompatActivity {
             total += (Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
             Locale locale = new Locale("en", "US");
             NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-            txtTotal.setText(numberFormat.format(total) + " $");
+            txtTotal.setText(numberFormat.format(total));
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        checkSizeCart();
+    }
+
+    private void checkSizeCart() {
+
         if (cart.size() == 0) {
+            txtTotal.setText("0");
             btnPlace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
