@@ -4,6 +4,7 @@ public class User {
     private String Name;
     private String Password;
     private String Email;
+    private String Phone;
 
     public User() {
     }
@@ -12,6 +13,14 @@ public class User {
         Name = name;
         Password = password;
         Email = email;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(String phone) {
+        Phone = phone;
     }
 
     public String getName() {
