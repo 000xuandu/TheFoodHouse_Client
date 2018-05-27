@@ -41,7 +41,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         // toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(" ");
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null){
