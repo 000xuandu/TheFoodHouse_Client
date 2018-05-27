@@ -47,7 +47,7 @@
         android:backgroundTint="@android:color/white"
         android:elevation="6dp"
         android:src="@drawable/ic_shopping_cart_black_24dp"
-        app:layout_anchor="@id/cardDescription"
+        app:layout_anchor="@id/cardName"
         app:layout_anchorGravity="bottom|right|end"
         app:pressedTranslationZ="12dp"
         app:useCompatPadding="true" />
@@ -65,6 +65,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/cardName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="5dp"
