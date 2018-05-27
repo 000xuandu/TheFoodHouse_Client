@@ -1,5 +1,6 @@
 package thedark.example.com.thefoodhouse_client.Food;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,7 +45,7 @@ public class FoodListActivity extends AppCompatActivity {
         recycler_food.setLayoutManager(layoutManager);
 
         //Get Intent (CategoryID) From Home.java:
-        if (getIntent()!=null){
+        if (getIntent() != null) {
             categoryId = getIntent().getStringExtra("CategoryID");
         }
 
@@ -63,17 +64,21 @@ public class FoodListActivity extends AppCompatActivity {
                 //like: SELECT * FROM Foods WHERE MenuID = categoryID;
                 foodList.orderByChild("MenuId").equalTo(categoryId)) {
             @Override
-            protected void populateViewHolder(FoodViewHolder viewHolder, final Food model, int position) {
+            protected void populateViewHolder(FoodViewHolder viewHolder, final Food model, final int position) {
                 viewHolder.txtFoodName.setText(model.getName());
                 Picasso.get()
                         .load(model.getImage())
-                        .into(viewHolder.imageView );
+                        .into(viewHolder.imageView);
 
                 Food local = model;
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int positon, boolean isLongClick) {
-                        Toast.makeText(FoodListActivity.this, ""+model.getName(), Toast.LENGTH_SHORT).show();
+                        //Start Activity FoodDetails
+                        Intent moveToFoodDetails = new Intent(getApplicationContext(), FoodDetailsActivity.class);
+                        moveToFoodDetails.putExtra("FoodId", adapter.getRef(position).getKey());
+                        // Send FoodId to FoodDetailsActivity
+                        startActivity(moveToFoodDetails);
                     }
                 });
             }

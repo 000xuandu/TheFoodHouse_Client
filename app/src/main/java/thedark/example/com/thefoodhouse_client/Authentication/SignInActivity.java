@@ -53,8 +53,9 @@ public class SignInActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         //Check null information:
-                        if (edtPhone.getText().toString().equals("") || edtPassword.getText().toString().equals("")){
+                        if (edtPhone.getText().toString().equals("") && edtPassword.getText().toString().equals("")){
                             mDialog.dismiss();
+
                             Toast.makeText(SignInActivity.this, "Please enter full information", Toast.LENGTH_SHORT).show();
                         } else {
                             //Check if user not exist in databas:
@@ -81,7 +82,6 @@ public class SignInActivity extends AppCompatActivity {
                         }
 
                     }
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
