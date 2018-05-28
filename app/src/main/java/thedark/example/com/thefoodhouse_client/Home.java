@@ -27,7 +27,7 @@ import thedark.example.com.thefoodhouse_client.Common.Common;
 import thedark.example.com.thefoodhouse_client.Food.FoodListActivity;
 import thedark.example.com.thefoodhouse_client.Interface.ItemClickListener;
 import thedark.example.com.thefoodhouse_client.Model.Category;
-import thedark.example.com.thefoodhouse_client.OrderStatus.OrderStatusActivity;
+import thedark.example.com.thefoodhouse_client.Order.OrderStatusActivity;
 import thedark.example.com.thefoodhouse_client.ViewHolder.MenuViewHolder;
 
 public class Home extends AppCompatActivity

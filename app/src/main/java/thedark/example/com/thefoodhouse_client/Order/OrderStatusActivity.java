@@ -1,5 +1,6 @@
-package thedark.example.com.thefoodhouse_client.OrderStatus;
+package thedark.example.com.thefoodhouse_client.Order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +21,6 @@ import thedark.example.com.thefoodhouse_client.ViewHolder.OrderViewHolder;
 public class OrderStatusActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private FirebaseDatabase database;
     private DatabaseReference requests;
     private FirebaseRecyclerAdapter<Request, OrderViewHolder> adapter;
 
@@ -32,42 +31,19 @@ public class OrderStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_status);
 
         //Firebase:
-        database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         requests = database.getReference("Requests");
 
         //init:
         recyclerView = (RecyclerView) findViewById(R.id.recycler_orderview);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        loadOders(Common.currentUser.getPhone());
+        loadOrders(Common.currentUser.getPhone());
     }
 
-    private void loadOders(final String phone) {
-//        adapter = new FirebaseRecyclerAdapter<Request, OrderViewHolder>(
-//                Orders.class,
-//                R.layout.order_layout,
-//                OrderViewHolder.class,
-//                requestFirebase.child(userUID)
-//        ) {
-//            @Override
-//            protected void populateViewHolder(OrderViewHolder viewHolder, Orders model, int position) {
-//                viewHolder.txtOrderId.setText(adapter.getRef(position).getKey());
-//                viewHolder.txtOrderStatus.setText(convertCodeToStatus(model.getStatus()));
-//                viewHolder.txtOrderPhone.setText(model.getPhone());
-//                viewHolder.txtOrderAddress.setText(model.getAddress());
-//                viewHolder.setItemClickListener(new ItemClickListener() {
-//                    @Override
-//                    public void onClick(View view, int position, boolean isLongClick) {
-//                        //Get CategoryID and send Activity Foods List:
-//                        Intent moveToOrderDetails = new Intent(OrderStatus.this, OrderDetails.class);
-//                        moveToOrderDetails.putExtra("KeyOrders", adapter.getRef(position).getKey());
-//                        startActivity(moveToOrderDetails);
-//                    }
-//                });
-//            }
-//        };
+    private void loadOrders(final String phone) {
         adapter = new FirebaseRecyclerAdapter<Request, OrderViewHolder>(
                 Request.class,
                 R.layout.order_item,
@@ -84,10 +60,10 @@ public class OrderStatusActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         Toast.makeText(OrderStatusActivity.this, adapter.getRef(position).getKey() + " OK", Toast.LENGTH_SHORT).show();
-                        //Get CategoryID and send Activity Foods List:
-//                        Intent moveToOrderDetails = new Intent(OrderStatusActivity.this, OrderDetails.class);
-//                        moveToOrderDetails.putExtra("KeyOrders", adapter.getRef(position).getKey());
-//                        startActivity(moveToOrderDetails);
+//                        Get CategoryID and send Activity Foods List:
+                        Intent moveToOrderDetails = new Intent(OrderStatusActivity.this, OrderDetailsActivity.class);
+                        moveToOrderDetails.putExtra("KeyOrder", adapter.getRef(position).getKey());
+                        startActivity(moveToOrderDetails);
                     }
                 });
             }
