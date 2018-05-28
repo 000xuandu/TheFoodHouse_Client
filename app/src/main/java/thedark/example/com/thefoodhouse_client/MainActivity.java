@@ -25,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         txtSlogan = findViewById(R.id.txtSlogan);
 
-        Typeface face  = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
         txtSlogan.setTypeface(face);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent moveToSignUp = new Intent(getApplicationContext(), SignUpActivity.class);
-                moveToSignUp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                moveToSignUp.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(moveToSignUp);
             }
         });
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent moveToSignIn = new Intent(getApplicationContext(), SignInActivity.class);
-                moveToSignIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                moveToSignIn.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(moveToSignIn);
             }
         });

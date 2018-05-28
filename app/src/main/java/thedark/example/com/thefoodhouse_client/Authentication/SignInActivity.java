@@ -68,7 +68,7 @@ public class SignInActivity extends AppCompatActivity {
                                     mDialog.dismiss();
                                     Intent moveToHome = new Intent(getApplicationContext(), Home.class);
                                     Common.currentUser = user;
-                                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                     startActivity(moveToHome);
                                     finish();
                                 }else

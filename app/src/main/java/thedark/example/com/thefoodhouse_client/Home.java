@@ -97,11 +97,10 @@ public class Home extends AppCompatActivity
                 Picasso.get()
                         .load(model.getImage())
                         .into(viewHolder.imageView);
-                final Category clickItem = model;
+
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int positon, boolean isLongClick) {
-
                         //Get CategoryID and send to new Activity:
                         Intent moveToFoodList = new Intent(getApplicationContext(), FoodListActivity.class);
                         //Because CategoryID is Key, so we just get key of this item:
@@ -156,10 +155,17 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_menu) {
             startActivity(new Intent(getApplicationContext(), Home.class));
         } else if (id == R.id.nav_cart) {
-            startActivity(new Intent(getApplicationContext(), CartActivity.class));
+            Intent moveToCart = new Intent(getApplicationContext(), CartActivity.class);
+            moveToCart.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(moveToCart);
         } else if (id == R.id.nav_orders) {
-            startActivity(new Intent(getApplicationContext(), OrderStatusActivity.class));
+            Intent moveToOrderView = new Intent(getApplicationContext(), OrderStatusActivity.class);
+            moveToOrderView.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(moveToOrderView);
         } else if (id == R.id.nav_log_out) {
+            Intent signOut = new Intent(getApplicationContext(), MainActivity.class);
+            signOut.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(signOut);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
