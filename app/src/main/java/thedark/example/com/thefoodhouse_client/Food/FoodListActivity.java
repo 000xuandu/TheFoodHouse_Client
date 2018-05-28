@@ -78,6 +78,7 @@ public class FoodListActivity extends AppCompatActivity {
                         Intent moveToFoodDetails = new Intent(getApplicationContext(), FoodDetailsActivity.class);
                         moveToFoodDetails.putExtra("FoodId", adapter.getRef(position).getKey());
                         // Send FoodId to FoodDetailsActivity
+                        moveToFoodDetails.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(moveToFoodDetails);
                     }
                 });

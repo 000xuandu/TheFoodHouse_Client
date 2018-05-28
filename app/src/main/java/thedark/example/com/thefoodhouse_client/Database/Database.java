@@ -65,13 +65,13 @@ public class Database extends SQLiteAssetHelper {
 
     public void cleanCart() {
         SQLiteDatabase db = getReadableDatabase();
-        String query = String.format("DELETE FROM OrderDetailt");
+        String query = "DELETE FROM OrderDetailt";
         db.execSQL(query);
     }
 
     public int returnID(String productName) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = String.format("SELECT ID FROM OrderDetailt WHERE ProductName = '" + productName + "'");
+        String query = "SELECT ID FROM OrderDetailt WHERE ProductName = '" + productName + "'";
         @SuppressLint("Recycle") Cursor c = db.rawQuery(query, null);
         int resultId = 0;
         if (c != null) {
@@ -83,7 +83,7 @@ public class Database extends SQLiteAssetHelper {
 
     public void deleteItemCart(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = String.format("DELETE FROM OrderDetailt WHERE ID = '" + id + "'");
+        String query = "DELETE FROM OrderDetailt WHERE ID = '" + id + "'";
         db.execSQL(query);
     }
 

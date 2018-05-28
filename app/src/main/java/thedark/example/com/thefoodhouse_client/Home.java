@@ -26,6 +26,7 @@ import thedark.example.com.thefoodhouse_client.Common.Common;
 import thedark.example.com.thefoodhouse_client.Food.FoodListActivity;
 import thedark.example.com.thefoodhouse_client.Interface.ItemClickListener;
 import thedark.example.com.thefoodhouse_client.Model.Category;
+import thedark.example.com.thefoodhouse_client.OrderStatus.OrderStatusActivity;
 import thedark.example.com.thefoodhouse_client.ViewHolder.MenuViewHolder;
 
 public class Home extends AppCompatActivity
@@ -89,7 +90,7 @@ public class Home extends AppCompatActivity
 
     private void loadMenu() {
 
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, Category model, final int position) {
                 viewHolder.txtMenuName.setText(model.getName());
@@ -105,6 +106,7 @@ public class Home extends AppCompatActivity
                         Intent moveToFoodList = new Intent(getApplicationContext(), FoodListActivity.class);
                         //Because CategoryID is Key, so we just get key of this item:
                         moveToFoodList.putExtra("CategoryID", adapter.getRef(position).getKey());
+                        moveToFoodList.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(moveToFoodList);
                     }
                 });
@@ -152,13 +154,12 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_menu) {
-            // Handle the camera action
+            startActivity(new Intent(getApplicationContext(), Home.class));
         } else if (id == R.id.nav_cart) {
-
+            startActivity(new Intent(getApplicationContext(), CartActivity.class));
         } else if (id == R.id.nav_orders) {
-
+            startActivity(new Intent(getApplicationContext(), OrderStatusActivity.class));
         } else if (id == R.id.nav_log_out) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

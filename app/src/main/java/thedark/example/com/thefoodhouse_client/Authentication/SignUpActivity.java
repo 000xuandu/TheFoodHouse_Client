@@ -50,21 +50,31 @@ public class SignUpActivity extends AppCompatActivity {
                 table_users.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Check if already user phone
-                        if (dataSnapshot.child(edtPhone.getText().toString()).exists())
+                        if (edtName.getText().toString().equals("")
+                                || edtPassword.getText().toString().equals("")
+                                || edtPhone.getText().toString().equals("")
+                                || edtEmail.getText().toString().equals(""))
                         {
+                            Toast.makeText(SignUpActivity.this, "Please enter full information", Toast.LENGTH_SHORT).show();
                             mDialog.dismiss();
-                            Toast.makeText(SignUpActivity.this, "Phone number already register", Toast.LENGTH_SHORT).show();
-                        }else
+                        } else
                         {
-                            mDialog.dismiss();
-                            User user = new User(
-                                    edtName.getText().toString(),
-                                    edtPassword.getText().toString(),
-                                    edtEmail.getText().toString());
-                            table_users.child(edtPhone.getText().toString()).setValue(user);
-                            Toast.makeText(SignUpActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            // Check if already user phone
+                            if (dataSnapshot.child(edtPhone.getText().toString()).exists())
+                            {
+                                mDialog.dismiss();
+                                Toast.makeText(SignUpActivity.this, "Phone number already register", Toast.LENGTH_SHORT).show();
+                            }else
+                            {
+                                mDialog.dismiss();
+                                User user = new User(
+                                        edtName.getText().toString(),
+                                        edtPassword.getText().toString(),
+                                        edtEmail.getText().toString());
+                                table_users.child(edtPhone.getText().toString()).setValue(user);
+                                Toast.makeText(SignUpActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
                     }
 
