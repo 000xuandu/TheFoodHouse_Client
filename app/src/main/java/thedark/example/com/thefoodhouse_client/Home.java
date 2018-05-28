@@ -1,6 +1,7 @@
 package thedark.example.com.thefoodhouse_client;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -153,7 +154,7 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_menu) {
-            startActivity(new Intent(getApplicationContext(), Home.class));
+
         } else if (id == R.id.nav_cart) {
             Intent moveToCart = new Intent(getApplicationContext(), CartActivity.class);
             moveToCart.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -165,6 +166,12 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_log_out) {
             Intent signOut = new Intent(getApplicationContext(), MainActivity.class);
             signOut.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("phone");
+            editor.remove("password");
+            editor.remove("logout");
+            editor.apply();
             startActivity(signOut);
         }
 

@@ -1,9 +1,7 @@
 package thedark.example.com.thefoodhouse_client.Food;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 import thedark.example.com.thefoodhouse_client.Database.Database;
 import thedark.example.com.thefoodhouse_client.Model.Food;

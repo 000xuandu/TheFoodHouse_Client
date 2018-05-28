@@ -1,7 +1,9 @@
 package thedark.example.com.thefoodhouse_client.Authentication;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ public class SignInActivity extends AppCompatActivity {
 
     EditText edtPhone, edtPassword;
     Button btnSignIn;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,11 @@ public class SignInActivity extends AppCompatActivity {
         edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         btnSignIn = findViewById(R.id.btnSignIn);
+        sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+        //Get data from sharedPreferences to username and password:
+        edtPhone.setText(sharedPreferences.getString("phone", ""));
+        edtPassword.setText(sharedPreferences.getString("password", ""));
+
 
         //Init Firebase:
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -53,31 +61,33 @@ public class SignInActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         //Check null information:
-                        if (edtPhone.getText().toString().equals("") && edtPassword.getText().toString().equals("")){
+                        if (edtPhone.getText().toString().equals("") && edtPassword.getText().toString().equals("")) {
                             mDialog.dismiss();
 
                             Toast.makeText(SignInActivity.this, "Please enter full information", Toast.LENGTH_SHORT).show();
                         } else {
                             //Check if user not exist in databas:
-                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()){
+                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
                                 //Get User Information:
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 user.setPhone(edtPhone.getText().toString());
-                                if (user.getPassword().equals(edtPassword.getText().toString()))
-                                {
+                                if (user.getPassword().equals(edtPassword.getText().toString())) {
                                     mDialog.dismiss();
                                     Intent moveToHome = new Intent(getApplicationContext(), Home.class);
                                     Common.currentUser = user;
                                     moveToHome.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                     startActivity(moveToHome);
+                                    @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("phone", edtPhone.getText().toString());
+                                    editor.putString("password", edtPassword.getText().toString());
+                                    editor.putBoolean("logout", true); // if user logout is false
+                                    editor.apply();
                                     finish();
-                                }else
-                                {
+                                } else {
                                     Toast.makeText(SignInActivity.this, "Wrong phone number or password", Toast.LENGTH_SHORT).show();
                                     mDialog.dismiss();
                                 }
-                            }else
-                            {
+                            } else {
                                 Toast.makeText(SignInActivity.this, "Phone number doesn't exist", Toast.LENGTH_SHORT).show();
                                 mDialog.dismiss();
                             }
@@ -93,4 +103,5 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
     }
+
 }
