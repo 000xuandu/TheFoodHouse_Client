@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import thedark.example.com.thefoodhouse_client.Common.Common;
 import thedark.example.com.thefoodhouse_client.Home;
 import thedark.example.com.thefoodhouse_client.Model.User;
@@ -27,7 +27,7 @@ import thedark.example.com.thefoodhouse_client.R;
 public class SignInActivity extends AppCompatActivity {
 
     EditText edtPhone, edtPassword;
-    Button btnSignIn;
+    FancyButton btnSignIn;
     SharedPreferences sharedPreferences;
 
     @Override

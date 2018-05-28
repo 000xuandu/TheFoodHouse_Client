@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:whilu="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
@@ -47,16 +47,18 @@
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true" />
 
-        <com.github.whilu.library.CustomRippleButton
+        <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/btnSignIn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/signin"
+            fancy:fb_radius="04dp"
+            android:textSize="20sp"
+            fancy:fb_defaultColor="@color/btnSignActive"
+            fancy:fb_focusColor="#9bd823"
             android:textColor="@android:color/background_dark"
-            whilu:ripple_duration="250"
-            whilu:round_radius="5dp"
-            whilu:shape_type="rectangle"
-            whilu:unpressed_color="@color/btnSignActive" />
+           />
+
     </LinearLayout>
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:whilu="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     tools:context=".Authentication.SignUpActivity">
 
@@ -76,16 +76,17 @@
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true" />
 
-        <com.github.whilu.library.CustomRippleButton
+
+        <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/signup"
-            android:textColor="@android:color/background_dark"
-            whilu:ripple_duration="250"
-            whilu:round_radius="5dp"
-            whilu:shape_type="rectangle"
-            whilu:unpressed_color="@color/btnSignUp" />
+            fancy:fb_radius="04dp"
+            android:textSize="20sp"
+            fancy:fb_defaultColor="@color/btnSignUp"
+            fancy:fb_focusColor="#9bd823"
+            />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

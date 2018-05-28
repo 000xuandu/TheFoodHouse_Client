@@ -5,15 +5,15 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import thedark.example.com.thefoodhouse_client.Authentication.SignInActivity;
 import thedark.example.com.thefoodhouse_client.Authentication.SignUpActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnSignIn, btnSignUp;
+    FancyButton btnSignIn, btnSignUp;
     TextView txtSlogan;
 
     @Override
