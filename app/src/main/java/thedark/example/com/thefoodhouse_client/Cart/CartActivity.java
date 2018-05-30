@@ -92,7 +92,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public List<Order> getSizeCart() {
-        return cart = new Database(CartActivity.this).getCarts();
+//        new Database(getApplicationContext()).cleanCart();
+        return cart = new Database(CartActivity.this).getCarts(Common.currentUser.getPhone());
     }
 
     private void showAlertDialog() {

@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import thedark.example.com.thefoodhouse_client.Common.Common;
 import thedark.example.com.thefoodhouse_client.Database.Database;
 import thedark.example.com.thefoodhouse_client.Model.Food;
 import thedark.example.com.thefoodhouse_client.Model.Order;
@@ -84,6 +85,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new Database(getApplicationContext()).addToCart(new Order(
                         "", //Id tự tăng
+                        Common.currentUser.getPhone(),
                         FoodId,
                         currentFood.getName(),
                         numberButton.getNumber(),

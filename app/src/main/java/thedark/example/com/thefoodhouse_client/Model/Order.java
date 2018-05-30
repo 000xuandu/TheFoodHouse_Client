@@ -1,18 +1,27 @@
 package thedark.example.com.thefoodhouse_client.Model;
 
 public class Order {
-    private String ID, ProductId, ProductName, Quantity, Price, Discount;
+    private String ID, UserPhone, ProductId, ProductName, Quantity, Price, Discount;
 
     public Order() {
     }
 
-    public Order(String ID, String productId, String productName, String quantity, String price, String discount) {
+    public Order(String ID, String userPhone, String productId, String productName, String quantity, String price, String discount) {
         this.ID = ID;
+        UserPhone = userPhone; //Phone numbers are a condition of the product search in the shopping cart of the account
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Price = price;
         Discount = discount;
+    }
+
+    public String getUserPhone() {
+        return UserPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        UserPhone = userPhone;
     }
 
     public String getID() {
