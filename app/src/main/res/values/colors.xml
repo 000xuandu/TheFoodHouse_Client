@@ -10,4 +10,6 @@
     <color name="overlayBackground">#7F333639</color>
     <color name="overlayActionBar">#0D0E0D</color>
 
+    <color name="backroundSnackbar">#a30000</color>
+
 </resources>

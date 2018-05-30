@@ -34,5 +34,7 @@
     <string name="phone">Phone</string>
     <string name="address">Address</string>
     <string name="_111111">111111</string>
+    <string name="map_api_key">AIzaSyCy-VFxchcXoU9y6_AzKY5XJW_5a8o9pmU</string>
+    <string name="delete">Delete</string>
 
 </resources>

@@ -2,6 +2,7 @@ package thedark.example.com.thefoodhouse_client.Cart;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +12,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,9 +47,13 @@ public class CartActivity extends AppCompatActivity {
 
     TextView txtTotal;
     Button btnPlace;
+    RelativeLayout rootLayout;
 
     List<Order> cart = new ArrayList<>();
     CartViewAdapter cartViewAdapter;
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    EditText edtAddress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,29 +66,33 @@ public class CartActivity extends AppCompatActivity {
 
         //Init:
         recyclerView = findViewById(R.id.listCart);
-        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
 
         txtTotal = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btnPlaceOrder);
+        rootLayout = findViewById(R.id.rootLayout);
+
+        getSizeCart();
+        checkSizeCart();
 
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                getSizeCart();
                 if (cart.size() == 0) {
-                    btnPlace.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
                 } else {
                     showAlertDialog();
                 }
             }
         });
-        loadListFoodOrder();
+        loadTotalMoneyFoodOrder();
+    }
+
+    public List<Order> getSizeCart() {
+        return cart = new Database(CartActivity.this).getCarts();
     }
 
     private void showAlertDialog() {
@@ -84,14 +100,38 @@ public class CartActivity extends AppCompatActivity {
         alertDialog.setTitle("One more step");
         alertDialog.setMessage("Enter your address");
 
-        final EditText edtAddress = new EditText(CartActivity.this);
+        edtAddress = new EditText(CartActivity.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         );
         edtAddress.setLayoutParams(lp);
+        edtAddress.setHint("Your address");
         alertDialog.setView(edtAddress);
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
+
+        //get Address:
+        edtAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CartActivity.this, "Ok", Toast.LENGTH_SHORT).show();
+                AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                        .setTypeFilter(AutocompleteFilter.TYPE_FILTER_NONE)
+                        .setCountry("VN")
+                        .build();
+                try {
+                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            .setFilter(typeFilter)
+                            .build(CartActivity.this);
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                }
+            }
+        });
+
 
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
@@ -129,15 +169,26 @@ public class CartActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                edtAddress.setText(place.getAddress());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                // TODO: Handle the error.
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
+
     @SuppressLint("SetTextI18n")
-    public void loadListFoodOrder() {
-        cart = new Database(getApplicationContext()).getCarts();
-        cartViewAdapter = new CartViewAdapter(cart, this);
-        cartViewAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(cartViewAdapter);
-
-        checkSizeCart();
-
+    public void loadTotalMoneyFoodOrder() {
+        getSizeCart();
+        cartViewAdapter = new CartViewAdapter(cart, this, recyclerView);
         //Calculate total price:
         int total = 0;
         for (Order order : cart) {
@@ -146,6 +197,8 @@ public class CartActivity extends AppCompatActivity {
             NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
             txtTotal.setText(numberFormat.format(total));
         }
+        cartViewAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(cartViewAdapter);
     }
 
     @Override
@@ -154,16 +207,27 @@ public class CartActivity extends AppCompatActivity {
         checkSizeCart();
     }
 
-    private void checkSizeCart() {
-
+    public void checkSizeCart() {
+        getSizeCart();
         if (cart.size() == 0) {
             txtTotal.setText("0");
-            btnPlace.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (cartViewAdapter != null) {
+            cartViewAdapter.saveStates(outState);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (cartViewAdapter != null) {
+            cartViewAdapter.restoreStates(savedInstanceState);
+        }
+    }
+
 }
