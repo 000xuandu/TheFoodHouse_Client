@@ -66,17 +66,6 @@ public class Database extends SQLiteAssetHelper {
         db.execSQL(query);
     }
 
-    public int returnID(String productName) {
-        SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT ID FROM CartTemp WHERE ProductName = '" + productName + "'";
-        @SuppressLint("Recycle") Cursor c = db.rawQuery(query, null);
-        int resultId = 0;
-        if (c != null) {
-            c.moveToFirst();
-            resultId = c.getColumnIndex("ID");
-        }
-        return resultId;
-    }
 
     public void deleteItemCart(int id) {
         SQLiteDatabase db = getReadableDatabase();
@@ -85,4 +74,9 @@ public class Database extends SQLiteAssetHelper {
     }
 
 
+    public void updateCart(String Id, String Quantity) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = String.format("UPDATE CartTemp SET Quantity = '" + Quantity + "' WHERE ID = '" + Id + "'");
+        db.execSQL(query);
+    }
 }

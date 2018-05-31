@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="#F2F3F5"
     tools:context=".Order.OrderStatusActivity">
 
     <android.support.v7.widget.RecyclerView

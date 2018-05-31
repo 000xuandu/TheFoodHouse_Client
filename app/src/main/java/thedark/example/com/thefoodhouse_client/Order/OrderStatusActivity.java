@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -56,10 +55,11 @@ public class OrderStatusActivity extends AppCompatActivity {
                 viewHolder.txtOrderStatus.setText(convertCodeToStatus(model.getStatus()));
                 viewHolder.txtOrderPhone.setText(model.getPhone());
                 viewHolder.txtOrderAddress.setText(model.getAddress());
+                viewHolder.txtOrderTotal.setText(String.valueOf(model.getTotal()));
+
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(OrderStatusActivity.this, adapter.getRef(position).getKey() + " OK", Toast.LENGTH_SHORT).show();
 //                        Get CategoryID and send Activity Foods List:
                         Intent moveToOrderDetails = new Intent(OrderStatusActivity.this, OrderDetailsActivity.class);
                         moveToOrderDetails.putExtra("KeyOrder", adapter.getRef(position).getKey());

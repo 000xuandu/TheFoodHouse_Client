@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background"
+    android:background="@drawable/backgroundapp"
     tools:context=".Authentication.SignUpActivity">
 
     <LinearLayout
@@ -77,16 +76,15 @@
             app:met_singleLineEllipsis="true" />
 
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <Button
             android:id="@+id/btnSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
             android:text="@string/signup"
-            fancy:fb_radius="04dp"
-            android:textSize="20sp"
-            fancy:fb_defaultColor="@color/btnSignUp"
-            fancy:fb_focusColor="#9bd823"
-            />
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:theme="@style/AppTheme.ButtonSignUp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

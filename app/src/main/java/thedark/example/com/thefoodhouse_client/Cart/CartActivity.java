@@ -25,10 +25,8 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import thedark.example.com.thefoodhouse_client.Common.Common;
 import thedark.example.com.thefoodhouse_client.Database.Database;
@@ -80,7 +78,6 @@ public class CartActivity extends AppCompatActivity {
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getSizeCart();
                 if (cart.size() == 0) {
                     Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
                 } else {
@@ -144,7 +141,7 @@ public class CartActivity extends AppCompatActivity {
                             Common.currentUser.getPhone(),
                             Common.currentUser.getName(),
                             edtAddress.getText().toString(),
-                            txtTotal.getText().toString(),
+                            Integer.parseInt(txtTotal.getText().toString()),
                             cart
                     );
                     //Submit Firebase:
@@ -193,9 +190,7 @@ public class CartActivity extends AppCompatActivity {
         int total = 0;
         for (Order order : cart) {
             total += (Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
-            Locale locale = new Locale("en", "US");
-            NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-            txtTotal.setText(numberFormat.format(total));
+            txtTotal.setText(String.valueOf(total));
         }
         cartViewAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(cartViewAdapter);
@@ -234,5 +229,9 @@ public class CartActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finishActivity(3);
+    }
+
+    public void loadTotalMoneyFoodOrderUpdate(int priceTotal) {
+        txtTotal.setText(String.valueOf(priceTotal));
     }
 }

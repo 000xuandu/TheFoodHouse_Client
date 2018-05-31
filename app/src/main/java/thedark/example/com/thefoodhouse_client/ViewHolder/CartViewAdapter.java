@@ -26,9 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import thedark.example.com.thefoodhouse_client.Cart.CartActivity;
 import thedark.example.com.thefoodhouse_client.Database.Database;
@@ -43,7 +41,6 @@ public class CartViewAdapter extends RecyclerView.Adapter<CartViewAdapter.MyView
     private Context context;
     private RecyclerView rv;
     private int mPosition;
-    private Order order;
 
 
     public CartViewAdapter(List<Order> listData, Context context, RecyclerView rv) {
@@ -67,20 +64,21 @@ public class CartViewAdapter extends RecyclerView.Adapter<CartViewAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final CartViewAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+
         final MyViewHolder h = (MyViewHolder) holder;
-        Order order = listData.get(position);
+        final Order order = listData.get(position);
         // Save/restore the open/close state.
         // You need to provide a String id which uniquely defines the data object.
         viewBinderHelper.bind(holder.swipeRevealLayout, order.getID());
         h.bind(order.getID(), rv);
 
         holder.txt_cart_count.setText(listData.get(position).getQuantity());
-        Locale locale = new Locale("en", "US");
-        final NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
-        int count = Integer.parseInt(listData.get(position).getQuantity());
+
         int price = Integer.parseInt(listData.get(position).getPrice());
+        final int count = Integer.parseInt(listData.get(position).getQuantity());
         final int priceTotal = count * price;
-        holder.txt_cart_price.setText(numberFormat.format(priceTotal));
+        holder.txt_cart_price.setText(String.valueOf(priceTotal));
+
         holder.txt_cart_name.setText(listData.get(position).getProductName());
 
         //OnClick to delete item cart:
@@ -130,6 +128,56 @@ public class CartViewAdapter extends RecyclerView.Adapter<CartViewAdapter.MyView
                 Toast.makeText(context, databaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        holder.img_minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int countTemp = Integer.parseInt(holder.txt_cart_count.getText().toString());
+                if (countTemp == 0) {
+                    holder.img_minus.setEnabled(false);
+                } else {
+                    holder.img_minus.setEnabled(true);
+                    int countMinus = countTemp - 1;
+                    holder.img_minus.setEnabled(true);
+                    holder.txt_cart_count.setText(String.valueOf(countMinus));
+                    int price = Integer.parseInt(listData.get(mPosition).getPrice());
+                    final int count = countMinus;
+                    final int priceTotal = count * price;
+                    holder.txt_cart_price.setText(String.valueOf(priceTotal));
+                    ((CartActivity) context).loadTotalMoneyFoodOrderUpdate(priceTotal);
+                    new Database(context).updateCart(listData.get(mPosition).getID(), String.valueOf(countMinus));
+                    order.setQuantity(String.valueOf(countMinus));
+                    listData.set(mPosition, order);
+                    Toast.makeText(context, "" + listData.get(mPosition).getQuantity(), Toast.LENGTH_SHORT).
+                            show();
+                }
+            }
+        });
+
+        holder.img_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int countTemp = Integer.parseInt(holder.txt_cart_count.getText().toString());
+                if (countTemp == 0) {
+                    holder.img_minus.setEnabled(false);
+                } else {
+                    holder.img_minus.setEnabled(true);
+                }
+                int countPlus = countTemp + 1;
+                holder.txt_cart_count.setText(String.valueOf(countPlus));
+                int price = Integer.parseInt(listData.get(mPosition).getPrice());
+                final int count = countPlus;
+                final int priceTotal = count * price;
+                holder.txt_cart_price.setText(String.valueOf(priceTotal));
+                ((CartActivity) context).loadTotalMoneyFoodOrderUpdate(priceTotal);
+                new Database(context).updateCart(listData.get(mPosition).getID(), String.valueOf(countPlus));
+                order.setQuantity(String.valueOf(countPlus));
+                listData.set(mPosition, order);
+                Toast.makeText(context, "" + listData.get(mPosition).getQuantity(), Toast.LENGTH_SHORT).
+                        show();
+            }
+        });
     }
 
     @Override
@@ -149,7 +197,7 @@ public class CartViewAdapter extends RecyclerView.Adapter<CartViewAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txt_cart_name, txt_cart_price, txt_cart_count;
-        public ImageView img_cart;
+        public ImageView img_cart, img_plus, img_minus;
         public CardView cardCart;
         public View viewBackground, view_foreground, deleteLayout;
         public SwipeRevealLayout swipeRevealLayout;
@@ -165,15 +213,19 @@ public class CartViewAdapter extends RecyclerView.Adapter<CartViewAdapter.MyView
             txt_cart_price = (TextView) itemView.findViewById(R.id.cart_item_price);
             txt_cart_count = (TextView) itemView.findViewById(R.id.cart_item_count);
             img_cart = (ImageView) itemView.findViewById(R.id.cart_item_img);
+            img_plus = (ImageView) itemView.findViewById(R.id.btnPlus);
+            img_minus = (ImageView) itemView.findViewById(R.id.btnMinus);
             cardCart = (CardView) itemView.findViewById(R.id.cardCart);
             viewBackground = itemView.findViewById(R.id.viewBackground);
             view_foreground = itemView.findViewById(R.id.view_foreground);
             swipeRevealLayout = itemView.findViewById(R.id.swipeRevealLayout);
             deleteLayout = itemView.findViewById(R.id.delete_layout);
+
         }
 
-        public void bind(final String data, RecyclerView rv) {
 
+        public void bind(final String data, RecyclerView rv) {
+            mPosition = getAdapterPosition();
             //Restore item:
             final Snackbar snackbar = Snackbar
                     .make(rv, listData.get(getAdapterPosition()).getProductName() + " " + "has just been deleted.", Snackbar.LENGTH_LONG);
@@ -204,11 +256,9 @@ public class CartViewAdapter extends RecyclerView.Adapter<CartViewAdapter.MyView
                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mPosition = getAdapterPosition();
-                            new Database(context).deleteItemCart(Integer.parseInt(listData.get(getAdapterPosition()).getID()));
+                            new Database(context).deleteItemCart(Integer.parseInt(listData.get(mPosition).getID()));
                             //Code: Reset Data when i want to delete one item in listData (Cart):
                             //Call loadListFoodOrder()
-                            CartViewAdapter.this.notifyDataSetChanged();
                             ((CartActivity) context).loadTotalMoneyFoodOrder();
                             ((CartActivity) context).checkSizeCart();
                             snackbar.show();

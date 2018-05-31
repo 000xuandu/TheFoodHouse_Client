@@ -22,4 +22,16 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <style name="AppTheme.ButtonSignIn" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/btnSignIn</item>
+        <item name="colorControlHighlight">@color/indigo</item>
+    </style>
+
+    <style name="AppTheme.ButtonSignUp" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorControlHighlight">@color/indigo</item>
+        <item name="colorButtonNormal">@color/btnSignUp</item>
+    </style>
+
+
 </resources>

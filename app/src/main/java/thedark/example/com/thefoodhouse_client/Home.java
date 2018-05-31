@@ -103,7 +103,7 @@ public class Home extends AppCompatActivity
                     @Override
                     public void onClick(View view, int positon, boolean isLongClick) {
                         //Get CategoryID and send to new Activity:
-                        Intent moveToFoodList = new Intent(getApplicationContext(), FoodListActivity.class);
+                        Intent moveToFoodList = new Intent(Home.this, FoodListActivity.class);
                         //Because CategoryID is Key, so we just get key of this item:
                         moveToFoodList.putExtra("CategoryID", adapter.getRef(position).getKey());
                         startActivity(moveToFoodList);

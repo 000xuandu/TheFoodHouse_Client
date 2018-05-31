@@ -140,7 +140,7 @@ public class FoodListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view, int positon, boolean isLongClick) {
                         //Start Activity FoodDetails
-                        Intent moveToFoodDetails = new Intent(getApplicationContext(), FoodDetailsActivity.class);
+                        Intent moveToFoodDetails = new Intent(FoodListActivity.this, FoodDetailsActivity.class);
                         moveToFoodDetails.putExtra("FoodId", searchAdapter.getRef(position).getKey());
                         // Send FoodId to FoodDetailsActivity
                         moveToFoodDetails.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

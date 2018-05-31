@@ -9,7 +9,7 @@ import thedark.example.com.thefoodhouse_client.R;
 
 public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddress;
+    public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddress, txtOrderTotal;
     private ItemClickListener itemClickListener;
 
     public OrderViewHolder(View itemView) {
@@ -19,6 +19,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderStatus = (TextView) itemView.findViewById(R.id.order_status);
         txtOrderPhone = (TextView) itemView.findViewById(R.id.order_phone);
         txtOrderAddress = (TextView) itemView.findViewById(R.id.order_address);
+        txtOrderTotal = (TextView) itemView.findViewById(R.id.order_total);
 
         itemView.setOnClickListener(this);
     }

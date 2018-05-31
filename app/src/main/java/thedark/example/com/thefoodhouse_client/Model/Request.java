@@ -3,19 +3,39 @@ package thedark.example.com.thefoodhouse_client.Model;
 import java.util.List;
 
 public class Request {
-    private String phone, name, address, total, status;
+    //    private String phone, name, address, total, status;
+    private String phone, name, address, status;
+    private int total;
     private List<Order> foods;
 
     public Request() {
     }
 
-    public Request(String phone, String name, String address, String total, List<Order> foods) {
+    public Request(String phone, String name, String address, int total, List<Order> foods) {
         this.phone = phone;
         this.name = name;
         this.address = address;
         this.total = total;
         this.foods = foods;
         this.status = "0"; //Default 0. 0: place, 1: shipping, 2: shipped
+    }
+//
+//    public Request(String phone, String name, String address, String total, List<Order> foods) {
+//        this.phone = phone;
+//        this.name = name;
+//        this.address = address;
+//        this.total = total;
+//        this.foods = foods;
+//        this.status = "0"; //Default 0. 0: place, 1: shipping, 2: shipped
+//    }
+
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public String getStatus() {
@@ -49,14 +69,14 @@ public class Request {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
-        this.total = total;
-    }
+//
+//    public String getTotal() {
+//        return total;
+//    }
+//
+//    public void setTotal(String total) {
+//        this.total = total;
+//    }
 
     public List<Order> getFoods() {
         return foods;

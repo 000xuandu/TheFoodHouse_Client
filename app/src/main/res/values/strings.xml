@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">TheFoodHouse_Client</string>
     <string name="Slogan">No matter where you are: whether you are at home, or in the office, or in the beach - we will find you and we will feed you</string>
     <string name="signup">Sign Up</string>
@@ -26,15 +26,16 @@
     <string name="description">Description</string>
     <string name="_10_000">$10,000</string>
     <string name="total">Total $:</string>
-    <string name="place_order">Place Order</string>
+    <string name="place_order">Place This Order</string>
     <string name="_2">2</string>
     <string name="_100_000">100,000</string>
-    <string name="food_01">Food 01</string>
     <string name="status">Status</string>
     <string name="phone">Phone</string>
     <string name="address">Address</string>
     <string name="_111111">111111</string>
     <string name="map_api_key">AIzaSyCy-VFxchcXoU9y6_AzKY5XJW_5a8o9pmU</string>
     <string name="delete">Delete</string>
+    <string name="_100">100</string>
+    <string name="food_01">Food 01</string>
 
 </resources>
