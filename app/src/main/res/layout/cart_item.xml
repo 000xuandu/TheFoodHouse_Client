@@ -84,11 +84,11 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:background="@android:color/transparent"
                                     android:id="@+id/cart_item_img"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/backgroundapp" />
+                                    android:scaleType="centerCrop" />
 
                                 <TextView
                                     android:id="@+id/cart_item_name"
@@ -113,8 +113,9 @@
                                     android:layout_toEndOf="@+id/cart_item_img"
                                     android:gravity="center"
                                     android:text="@string/_100"
+                                    android:textColor="@color/colorPrimary"
                                     android:textSize="14sp"
-                                    android:textStyle="normal" />
+                                    android:textStyle="bold" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -126,9 +127,10 @@
 
                                     <ImageView
                                         android:id="@+id/btnMinus"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="30dp"
                                         android:layout_height="match_parent"
                                         android:contentDescription="TODO"
+                                        android:scaleType="fitStart"
                                         android:src="@drawable/ic_minus"
                                         tools:ignore="TooDeepLayout" />
 
@@ -143,9 +145,10 @@
 
                                     <ImageView
                                         android:id="@+id/btnPlus"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="30dp"
                                         android:layout_height="match_parent"
                                         android:contentDescription="TODO"
+                                        android:scaleType="fitEnd"
                                         android:src="@drawable/ic_plus" />
 
                                 </LinearLayout>

@@ -37,5 +37,14 @@
     <string name="delete">Delete</string>
     <string name="_100">100</string>
     <string name="food_01">Food 01</string>
+    <string name="thank_you">Thank You</string>
+    <string name="ok">OK</string>
+    <string name="your_cart_is_empty">Your Cart Is Empty</string>
+    <string name="add_items_to_it_now">Add Items to it now?</string>
+    <string name="start_shopping">Start Shopping</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="your_order_was_successfully">Your order was successfully</string>
+    <string name="enter_your_address">Enter your address</string>
+    <string name="on_more_step">On More Step</string>
 
 </resources>

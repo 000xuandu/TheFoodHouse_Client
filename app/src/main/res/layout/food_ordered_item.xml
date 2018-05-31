@@ -63,8 +63,9 @@
                         android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/cart_item_img"
                         android:text="@string/_100"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="14sp"
-                        android:textStyle="normal" />
+                        android:textStyle="bold" />
 
 
                 </RelativeLayout>

@@ -1,6 +1,8 @@
 package thedark.example.com.thefoodhouse_client.Cart;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -79,7 +82,8 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (cart.size() == 0) {
-                    Toast.makeText(CartActivity.this, "My cart is empty", Toast.LENGTH_SHORT).show();
+                    ViewDialog viewDialog = new ViewDialog();
+                    viewDialog.showDialogCartEmpty(CartActivity.this);
                 } else {
                     showAlertDialog();
                 }
@@ -151,8 +155,8 @@ public class CartActivity extends AppCompatActivity {
                             .setValue(request);
                     //Delete Cart:
                     new Database(getApplicationContext()).cleanCart();
-                    Toast.makeText(CartActivity.this, "Thank you, Order successfully", Toast.LENGTH_SHORT).show();
-                    finish();
+                    ViewDialog viewDialog = new ViewDialog();
+                    viewDialog.showDialogOrderSuccessfully(CartActivity.this);
                 }
 
             }
@@ -186,14 +190,14 @@ public class CartActivity extends AppCompatActivity {
     public void loadTotalMoneyFoodOrder() {
         getSizeCart();
         cartViewAdapter = new CartViewAdapter(cart, this, recyclerView);
+        cartViewAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(cartViewAdapter);
         //Calculate total price:
         int total = 0;
         for (Order order : cart) {
             total += (Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
             txtTotal.setText(String.valueOf(total));
         }
-        cartViewAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(cartViewAdapter);
     }
 
     @Override
@@ -233,5 +237,43 @@ public class CartActivity extends AppCompatActivity {
 
     public void loadTotalMoneyFoodOrderUpdate(int priceTotal) {
         txtTotal.setText(String.valueOf(priceTotal));
+    }
+
+    public class ViewDialog {
+        public void showDialogOrderSuccessfully(Activity activity) {
+            final Dialog dialog = new Dialog(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.custom_dialog_order_successfully);
+
+            Button dialogButton = (Button) dialog.findViewById(R.id.btnOrderSuccessfully);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+
+            dialog.show();
+        }
+
+        public void showDialogCartEmpty(Activity activity) {
+            final Dialog dialog = new Dialog(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.custom_dialog_cart_empty);
+
+            Button dialogButton = (Button) dialog.findViewById(R.id.btnStartShopping);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+
+            dialog.show();
+        }
     }
 }
