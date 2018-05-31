@@ -1,6 +1,7 @@
 package thedark.example.com.thefoodhouse_client.Authentication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+import thedark.example.com.thefoodhouse_client.MainActivity;
 import thedark.example.com.thefoodhouse_client.Model.User;
 import thedark.example.com.thefoodhouse_client.R;
 
@@ -86,5 +88,16 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivityForResult(new Intent(this, MainActivity.class), 1);
     }
 }

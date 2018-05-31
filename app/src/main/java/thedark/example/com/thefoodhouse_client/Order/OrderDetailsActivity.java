@@ -79,4 +79,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishActivity(4);
+    }
 }

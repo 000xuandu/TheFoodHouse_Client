@@ -192,7 +192,6 @@ public class FoodListActivity extends AppCompatActivity {
                         Intent moveToFoodDetails = new Intent(getApplicationContext(), FoodDetailsActivity.class);
                         moveToFoodDetails.putExtra("FoodId", adapter.getRef(position).getKey());
                         // Send FoodId to FoodDetailsActivity
-                        moveToFoodDetails.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(moveToFoodDetails);
                     }
                 });
@@ -200,5 +199,9 @@ public class FoodListActivity extends AppCompatActivity {
         };
         recycler_food.setAdapter(adapter);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishActivity(5);
+    }
 }

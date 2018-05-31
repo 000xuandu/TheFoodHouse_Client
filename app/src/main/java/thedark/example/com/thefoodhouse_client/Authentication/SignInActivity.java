@@ -21,6 +21,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import mehdi.sakout.fancybuttons.FancyButton;
 import thedark.example.com.thefoodhouse_client.Common.Common;
 import thedark.example.com.thefoodhouse_client.Home;
+import thedark.example.com.thefoodhouse_client.MainActivity;
 import thedark.example.com.thefoodhouse_client.Model.User;
 import thedark.example.com.thefoodhouse_client.R;
 
@@ -75,7 +76,6 @@ public class SignInActivity extends AppCompatActivity {
                                     mDialog.dismiss();
                                     Intent moveToHome = new Intent(getApplicationContext(), Home.class);
                                     Common.currentUser = user;
-                                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                     startActivity(moveToHome);
                                     @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("phone", edtPhone.getText().toString());
@@ -104,4 +104,14 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivityForResult(new Intent(this, MainActivity.class), 1);
+    }
 }

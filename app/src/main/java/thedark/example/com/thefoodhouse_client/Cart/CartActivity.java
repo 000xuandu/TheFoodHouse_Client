@@ -92,7 +92,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public List<Order> getSizeCart() {
-//        new Database(getApplicationContext()).cleanCart();
         return cart = new Database(CartActivity.this).getCarts(Common.currentUser.getPhone());
     }
 
@@ -231,4 +230,9 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishActivity(3);
+    }
 }

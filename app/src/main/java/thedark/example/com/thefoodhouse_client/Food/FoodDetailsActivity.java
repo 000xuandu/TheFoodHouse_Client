@@ -92,6 +92,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
                         currentFood.getPrice(),
                         currentFood.getDiscount()
                 ));
+                finish();
                 Toast.makeText(FoodDetailsActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
             }
         });
@@ -127,5 +128,10 @@ public class FoodDetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

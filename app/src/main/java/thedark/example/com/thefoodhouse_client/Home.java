@@ -2,7 +2,6 @@ package thedark.example.com.thefoodhouse_client;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,23 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.marvinlabs.widget.slideshow.SlideShowAdapter;
-import com.marvinlabs.widget.slideshow.SlideShowView;
-import com.marvinlabs.widget.slideshow.adapter.RemoteBitmapAdapter;
-import com.marvinlabs.widget.slideshow.adapter.ResourceBitmapAdapter;
 import com.squareup.picasso.Picasso;
-
-import java.util.Arrays;
 
 import thedark.example.com.thefoodhouse_client.Cart.CartActivity;
 import thedark.example.com.thefoodhouse_client.Common.Common;
@@ -115,7 +106,6 @@ public class Home extends AppCompatActivity
                         Intent moveToFoodList = new Intent(getApplicationContext(), FoodListActivity.class);
                         //Because CategoryID is Key, so we just get key of this item:
                         moveToFoodList.putExtra("CategoryID", adapter.getRef(position).getKey());
-                        moveToFoodList.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(moveToFoodList);
                     }
                 });
