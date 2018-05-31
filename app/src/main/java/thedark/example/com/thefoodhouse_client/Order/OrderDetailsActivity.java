@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,7 +69,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
                     orderdetail.setQuantityDetails(quantity);
 
                     orderDetails.add(orderdetail);
-                    Toast.makeText(OrderDetailsActivity.this, discount + " " + productName + " " + quantity, Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(orderDetailsAdapter);
                 }
             }
