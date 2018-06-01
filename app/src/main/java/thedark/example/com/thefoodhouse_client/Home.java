@@ -17,18 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import thedark.example.com.thefoodhouse_client.Cart.CartActivity;
 import thedark.example.com.thefoodhouse_client.Common.Common;
-import thedark.example.com.thefoodhouse_client.Food.FoodListActivity;
-import thedark.example.com.thefoodhouse_client.Interface.ItemClickListener;
 import thedark.example.com.thefoodhouse_client.Model.Category;
 import thedark.example.com.thefoodhouse_client.Order.OrderStatusActivity;
-import thedark.example.com.thefoodhouse_client.ViewHolder.MenuViewHolder;
+import thedark.example.com.thefoodhouse_client.ViewHolder.MenuViewAdapter;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +41,8 @@ public class Home extends AppCompatActivity
 
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
-    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
+    MenuViewAdapter menuViewAdapter;
+    ArrayList<Category> categoryArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,36 +88,35 @@ public class Home extends AppCompatActivity
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
+
+        menuViewAdapter = new MenuViewAdapter(categoryArrayList, Home.this);
         loadMenu();
     }
 
     private void loadMenu() {
-
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
+        category.addValueEventListener(new ValueEventListener() {
             @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, final int position) {
-                viewHolder.txtMenuName.setText(model.getName());
-                Picasso.get()
-                        .load(model.getImage())
-                        .into(viewHolder.imageView);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
 
-                viewHolder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int positon, boolean isLongClick) {
-                        //Get CategoryID and send to new Activity:
-                        Intent moveToFoodList = new Intent(Home.this, FoodListActivity.class);
-                        //Because CategoryID is Key, so we just get key of this item:
-                        moveToFoodList.putExtra("CategoryID", adapter.getRef(position).getKey());
-                        startActivity(moveToFoodList);
-                    }
-                });
+                    Category category = new Category();
+                    String name = (String) messageSnapshot.child("Name").getValue();
+                    String image = (String) messageSnapshot.child("Image").getValue();
+
+                    category.setImage(image);
+                    category.setName(name);
+                    categoryArrayList.add(category);
+
+                    recycler_menu.setAdapter(menuViewAdapter);
+                }
             }
-        };
-        recycler_menu.setAdapter(adapter);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
-
-
-
 
 
     @Override
@@ -160,22 +161,18 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_cart) {
             Intent moveToCart = new Intent(getApplicationContext(), CartActivity.class);
-            moveToCart.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(moveToCart);
         } else if (id == R.id.nav_orders) {
             Intent moveToOrderView = new Intent(getApplicationContext(), OrderStatusActivity.class);
-            moveToOrderView.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(moveToOrderView);
         } else if (id == R.id.nav_log_out) {
-            Intent signOut = new Intent(getApplicationContext(), MainActivity.class);
-            signOut.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("phone");
             editor.remove("password");
             editor.remove("logout");
             editor.apply();
-            startActivity(signOut);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

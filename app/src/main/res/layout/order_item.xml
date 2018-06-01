@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"
+    android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="8dp"
     android:background="@android:color/transparent"
     app:cardElevation="4dp">
 
@@ -98,8 +97,9 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitStart"
                     android:src="@drawable/ic_attach_money_black_24dp" />
 
                 <TextView

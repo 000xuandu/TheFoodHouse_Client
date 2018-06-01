@@ -6,7 +6,6 @@
     android:background="#F2F3F5"
     tools:context=".Order.OrderDetailsActivity">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listOrdersDetail"
         android:layout_width="match_parent"

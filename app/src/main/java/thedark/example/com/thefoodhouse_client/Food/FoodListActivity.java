@@ -43,7 +43,6 @@ public class FoodListActivity extends AppCompatActivity {
 
     private String categoryId;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,6 +198,7 @@ public class FoodListActivity extends AppCompatActivity {
         };
         recycler_food.setAdapter(adapter);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
